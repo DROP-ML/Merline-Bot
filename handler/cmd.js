@@ -240,8 +240,8 @@ async function cmd(sock, M, m, result) {
             await bing_copilot(sock, m, M, result)
             break;
         case result.startsWith(".dall"):        //done
-            // await dall_e(sock, m, M, result.slice(6))
-            sendM(sock,m,M,"DALL-E Service Has Stopped!")
+            await dall_e(sock, m, M, result.slice(6))
+            // sendM(sock,m,M,"DALL-E Service Has Stopped!")
             break;
         case result.startsWith(".china"):       //
             await sendGirl(sock, m, M, 'https://aemt.me/china', 'China')
