@@ -9,7 +9,7 @@ var url;
 
 async function mp4(sock,m,M, text) {
  
-    url = text.slice(5)
+    url = text.slice(7)
 
     // Validate the URL
     if (ytdl.validateURL(url)) {
