@@ -14,7 +14,7 @@ async function song(sock, m, M, text, type) {
         const info = await ytdl.getInfo(url);
         const title = info.videoDetails.title;
         const fileName = title.replace(/[\\/:*?"<>|]/g, '_') + '.mp3';
-        ytdl(url, { quality: 'lowestaudio' })
+        ytdl(url, { quality: 'highestaudio' })
             .pipe(fs.createWriteStream(fileName))
             .on('finish', async () => {
                 react(sock, m, M, lang.react.upload);
