@@ -24,6 +24,7 @@ async function ttok(sock, m,M, text,res) {
     // Delete the file from the server
     await fs.unlink(videoFileName);
   } catch (error) {
+    console.log("ttok1 failed")
     ttok_v2(sock,m,M,res)
   }
 }

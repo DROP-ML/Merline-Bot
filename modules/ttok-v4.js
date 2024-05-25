@@ -35,7 +35,8 @@ async function ttok_v4(sock, m, M, text) {
       await fs.unlink(videoFileName);
     } else {
       react(sock, m, M, lang.react.error)
-      await sendM(sock, m, M, "*Tiktok Video Is Can't find ... Try .tk Command*")
+    console.log("ttok4 failed")
+    await sendM(sock, m, M, "*Tiktok Video Is Can't find ... Try .tk Command*")
     }
   } catch (error) {
     console.error('Error during Tiktok video download:', error.message || error);

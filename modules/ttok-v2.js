@@ -35,9 +35,13 @@ async function ttok_v2(sock, m, M, text) {
       react(sock, m,M, lang.react.success);
       await fs.unlink(videoFileName);
     } else {
+    console.log("ttok2 failed")
+
       ttok_v3(sock,m,M,text)
     }
   } catch (error) {
+    console.log("ttok2 failed")
+
     ttok_v3(sock,m,M,text)
   }
 }
