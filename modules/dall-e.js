@@ -9,7 +9,7 @@ async function dall_e(sock, m, M, text) {
     const outputPath = `${randomNumber}.png`;
     react(sock,m,M,lang.react.process)
 
-    const imageUrl = 'https://aemt.me/dalle?text=' + text; // Replace with your image URL
+    const imageUrl = 'https://api.gurusensei.workers.dev/dream?prompt=' + text; // Replace with your image URL
 
     // Make a GET request using Axios
     const response = await axios({
