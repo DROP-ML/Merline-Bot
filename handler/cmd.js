@@ -84,7 +84,7 @@ async function cmd(sock, M, m, result) {
         case result.startsWith(".gemini"):      //done
             await gemini(sock, m, M, result.split(8))
             break;
-        case result.startsWith('.mp4'):         //done
+        case result.startsWith('.video'):         //done
             await mp4(sock, m, M, result);
             break;
         case result.startsWith('.gpt3'):         //done
