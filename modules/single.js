@@ -1,3 +1,6 @@
+//      Checked 05/25/2024
+
+
 const axios = require('axios');
 const lang = require('../handler/lang.json');
 const {cv} = require('./catch');
@@ -27,7 +30,7 @@ async function single(sock, m, M) {
   } catch (error) {
     console.error('Error during Instagram video download:', error.message || error);
     react(sock, m, M, lang.react.error)
-    sendM(sock, m, M, "*You May Absolutely Need To Saty In A Single Person*")
+    sendM(sock, m, M, "*You May Absolutely Need To Stay As A Single Person*")
   }
 }
 

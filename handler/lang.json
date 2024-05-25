@@ -1,11 +1,11 @@
 {
     "react": {
-        "success": "✅",
-        "down": "⬇️",
-        "upload": "⬆️",
-        "process": "🕵🏻‍♂️",
-        "error": "❌",
-        "invalid": "❔"
+        "success": "😒",
+        "down": "😟",
+        "upload": "🫣",
+        "process": "🥸",
+        "error": "😢",
+        "invalid": "🧐"
     },
     "yt": {
         "Invalid": "Invalid Youtube Link ❔",

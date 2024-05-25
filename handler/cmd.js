@@ -162,9 +162,10 @@ async function cmd(sock, M, m, result) {
         case result.startsWith(".pass"):        //done
             pass(sock, m, M, result);
             break;
-        case result.startsWith(".scrap"):       //done
-            const xc11 = await isNull(result, 7, sock, m, M)
-            scrap(sock, m, M, xc11)
+        case result.startsWith(".scrap"):       //Problem
+            // const xc11 = await isNull(result, 7, sock, m, M)
+            // scrap(sock, m, M, xc11)
+            sendM(sock,m,M,"Scraping Service Has Stopped!")
             break;
         case result.startsWith(".short"):       //done
             await isNull(result, 7, sock, m, M).then(async ress => { await short(sock, m, M, ress) }).catch(error => { console.log("error") })
@@ -239,7 +240,8 @@ async function cmd(sock, M, m, result) {
             await bing_copilot(sock, m, M, result)
             break;
         case result.startsWith(".dall"):        //done
-            await dall_e(sock, m, M, result.slice(6))
+            // await dall_e(sock, m, M, result.slice(6))
+            sendM(sock,m,M,"DALL-E Service Has Stopped!")
             break;
         case result.startsWith(".china"):       //
             await sendGirl(sock, m, M, 'https://aemt.me/china', 'China')
@@ -275,8 +277,6 @@ async function cmd(sock, M, m, result) {
             break;
         case result.startsWith(".t2iai"):
             await ai_t2i(sock, m, M, result.slice(7))
-            break;
-            await ttok_v4(sock, m, M, result.slice(5))
             break;
         case result.startsWith(".turbo"):
             await turbo_ai(sock, m, M, result)

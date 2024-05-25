@@ -1,3 +1,6 @@
+//      Checked 05/25/2024
+
+
 const lang = require("../handler/lang.json");
 const axios = require('axios');
 const { sendM } = require('../handler/sendFunction');

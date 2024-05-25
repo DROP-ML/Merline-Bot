@@ -1,3 +1,6 @@
+//    Checked  05/25/2024
+
+
 const lang = require("../handler/lang.json");
 const fs = require('fs').promises; // Use fs.promises for async file operations
 const { default: axios } = require("axios");
@@ -23,7 +26,7 @@ async function lyric(sock, m, M, result) {
                 responseType: 'arraybuffer',
             })
             try {
-                fs.writeFileSync(outputPath, Buffer.from(response.data, 'binary'));
+                fs.writeFilec(outputPath, Buffer.from(response.data, 'binary'));
                 await sendImage(sock, m, M, outputPath, `\n Title : ${json.title}\n Artist : ${json.artist}\n *Lyrics* :\n${json.lyrics}`)
                 react(sock, m, M, lang.react.success);
                 await fs.unlink(outputPath);

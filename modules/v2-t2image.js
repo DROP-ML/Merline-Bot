@@ -1,3 +1,8 @@
+//      Checked 05/25/2024
+
+
+
+
 const { sendImage, react } = require("../handler/sendFunction");
 const lang = require('../handler/lang.json');
 const fs = require('fs').promises; // Use fs.promises for async file operations
@@ -18,7 +23,7 @@ async function v2_t2i(sock, m, M, text) {
         responseType: 'arraybuffer',
     })
     try {
-        await fs.writeFileSync(outputPath, Buffer.from(response.data, 'binary'));
+        await fs.writeFile(outputPath, Buffer.from(response.data, 'binary'));
         await sendImage(sock, m, M, outputPath, "V2 T2I Image Creation")
         react(sock, m, M, lang.react.success);
         await fs.unlink(outputPath);
