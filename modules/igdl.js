@@ -19,7 +19,7 @@ async function igdl(sock, m, M, text) {
   }
   try {
 
-    let URL = await ndown("https://www.instagram.com/reel/C5f8uIYhP94/?igsh=cGw3eDVjZGJyMnA3");
+    let URL = await ndown(url);
 
 
     if (data.code == 200) {
