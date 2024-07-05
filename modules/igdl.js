@@ -22,7 +22,7 @@ async function igdl(sock, m, M, text) {
     let URL = await ndown(url);
 
 
-    if (data.code == 200) {
+    
       react(sock, m,M, lang.react.down);
 
       const videoResponse = await axios.get(URL.data[0].url, { responseType: 'arraybuffer' });
@@ -34,10 +34,6 @@ async function igdl(sock, m, M, text) {
 
       react(sock, m,M, lang.react.success);
       await fs.unlink(videoFileName);
-    } else {
-      react(sock, m, M, lang.react.error)
-      await sendM(sock, m, M, "*IG Reel Can't find ...*")
-    }
   } catch (error) {
     console.error('Error during Instagram video download:', error.message || error);
     react(sock, m, M, lang.react.error)
