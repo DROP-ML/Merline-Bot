@@ -3,6 +3,7 @@ const lang = require('../handler/lang.json');
 const {cv} = require('./catch');
 const { react, sendM, sendVideomp4 } = require('../handler/sendFunction');
 const fbdl_v2 = require('./fbdl-v2');
+const {ndown} = require("nayan-media-downloader")
 const fs = require('fs').promises; // Use fs.promises for async file operations
 const randomNumber = Math.floor(Math.random() * 100000) + 1;
 const videoFileName = `${randomNumber}.mp4`;
@@ -30,8 +31,10 @@ async function fbdl(sock, m, M, text) {
     }
   };
   try {
-    const response = await axios.request(options);
-    const videoResponse = await axios.get(response.data.media[0].hd_url, { responseType: 'arraybuffer' });
+    // const response = await axios.request(options);
+    
+let res = ndown(url2, {version: "v1" }); //  version: "v1" | "v2" | "v3"
+    const videoResponse = await axios.get(res.data[0].url, { responseType: 'arraybuffer' });
     await fs.writeFile(videoFileName, Buffer.from(videoResponse.data));
     react(sock, m,M, lang.react.upload);
     await sendVideomp4(sock,m,M,videoFileName,tex)
