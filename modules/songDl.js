@@ -1,9 +1,8 @@
 const lang = require('../handler/lang.json');
-const ytdl2 = require('./AudioDL.js');
 const ytdl = require('ytdl-core');
 const yts = require('@blackamda/yt-search');
-
 const fs = require('fs');
+const { youtubedl, youtubedlv2 } = require('@bochilteam/scraper');
 const { sendAudio, appleAudio, react, sendM } = require('../handler/sendFunction');
 async function song(sock, m, M, text, type) {
     const randomNumber = Math.floor(Math.random() * 100000) + 1;
@@ -13,20 +12,50 @@ async function song(sock, m, M, text, type) {
 
     url = text.slice(6)
 
+    async function downloadFile(url) {
+        const writer = fs.createWriteStream(videoFileName);
+
+        const response = await axios({
+            url,
+            method: 'GET',
+            responseType: 'stream'
+        });
+
+        response.data.pipe(writer);
+
+        return new Promise((resolve, reject) => {
+            writer.on('finish', resolve);
+            writer.on('error', reject);
+        });
+    }
+
+    async function dlUrl(url) {
+        try {
+            let q = '128kbps'
+            let v = url;
+            const yt = await youtubedl(v).catch(async () => await youtubedlv2(v))
+            const dl_url = await yt.audio[q].download()
+            const title = await yt.title
+            console.log(dl_url)
+            await downloadFile(dl_url, videoFileName).then(async () => {
+                await react(sock, m, M, lang.react.upload);
+                if (type === "android") {
+                    await sendAudio(sock, m, M, videoFileName);
+                } else {
+                    await appleAudio(sock, m, M, videoFileName);
+                }
+                react(sock, m, M, lang.react.success);
+                fs.unlinkSync(fileNvideoFileNameame);
+            })
+                .catch(error => console.error('Error downloading file:', error));
+        } catch {
+
+        }
+    }
+
 
     if (ytdl.validateURL(url)) {
-        await ytdl2(url, videoFileName).then(async () => {
-            await react(sock, m, M, lang.react.upload);
-            if (type === "android") {
-                await sendAudio(sock, m, M, videoFileName);
-            } else {
-                await appleAudio(sock, m, M, videoFileName);
-            }
-            react(sock, m, M, lang.react.success);
-            fs.unlinkSync(fileNvideoFileNameame);
-
-        })
-            .catch(error => console.error('Error downloading file:', error));
+        await dlUrl(url);
     } else {
         let results = await yts(url);
         var messageText = lang.yt.dl + `\n\n`;
@@ -38,18 +67,7 @@ async function song(sock, m, M, text, type) {
             messageText += lang.struc.footer;
 
             sendM(sock, m, M, messageText);
-            await ytdl2(ff, videoFileName).then(async () => {
-                await react(sock, m, M, lang.react.upload);
-                if (type === "android") {
-                    await sendAudio(sock, m, M, videoFileName);
-                } else {
-                    await appleAudio(sock, m, M, videoFileName);
-                }
-                react(sock, m, M, lang.react.success);
-                fs.unlinkSync(fileNvideoFileNameame);
-
-            })
-                .catch(error => console.error('Error downloading file:', error));
+            await dlUrl(ff);
         });
 
     }
