@@ -46,7 +46,7 @@ async function song(sock, m, M, text, type) {
                     await appleAudio(sock, m, M, videoFileName);
                 }
                 react(sock, m, M, lang.react.success);
-                fs.unlinkSync(fileNvideoFileNameame);
+                fs.unlinkSync(videoFileName);
             })
                 .catch(error => console.error('Error downloading file:', error));
         } catch {
