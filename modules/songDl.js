@@ -1,6 +1,7 @@
 const lang = require('../handler/lang.json');
 const ytdl = require('ytdl-core');
 const yts = require('@blackamda/yt-search');
+const axios = require('axios');
 const fs = require('fs');
 const { youtubedl, youtubedlv2 } = require('@bochilteam/scraper');
 const { sendAudio, appleAudio, react, sendM } = require('../handler/sendFunction');
