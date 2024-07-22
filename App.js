@@ -1,10 +1,10 @@
+const express = require('express');
 const fs = require('fs').promises;
 const makeWASocket = require("@whiskeysockets/baileys").default;
 const { DisconnectReason, useMultiFileAuthState, qr, MessageType, MessageOptions, Mimetype, downloadMediaMessage } = require("@whiskeysockets/baileys");
 const cmd = require("./handler/cmd");
-const displayTime = require("./modules/autoBio");
-const uploadtoimgur = require('./modules/imgtourl');
-const { sendM } = require('./handler/sendFunction');
+const app = express();
+const port = 3000;
 
 async function connectionLogic() {
   const { state, saveCreds } = await useMultiFileAuthState("auth_info_baileys");
@@ -119,3 +119,8 @@ async function connectionLogic() {
 }
 
 connectionLogic();
+
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+  connectionLogic();
+});
