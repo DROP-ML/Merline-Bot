@@ -3,7 +3,7 @@ const fs = require('fs').promises;
 const { makeWASocket, useMultiFileAuthState, DisconnectReason } = require("@whiskeysockets/baileys");
 const cmd = require("./handler/cmd");
 const app = express();
-const port = 8000;
+const port = 3000;
 
 async function connectionLogic() {
   const { state, saveCreds } = await useMultiFileAuthState("auth_info_baileys");
