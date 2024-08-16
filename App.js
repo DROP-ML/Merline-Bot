@@ -29,7 +29,7 @@ async function connectionLogic() {
 
   function verify(messages) {
     let received; // Declare 'received' correctly at the top of the function
-    if (messages[0].key.fromMe === false && messages[0].hasOwnProperty('message')) {
+    if (messages[0].hasOwnProperty('message')) {
       if (messages[0].message.hasOwnProperty('conversation')) {
         received = messages[0].message.conversation;
         return received;
