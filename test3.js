@@ -11,6 +11,8 @@ async function song() {
 
     async function downloadmp3(url) {
         const info = await ytdl.getInfo(url);
+
+        console.log(info);
         const title = info.videoDetails.title;
         const fileName = title.replace(/[\\/:*?"<>|]/g, '_') + '.mp3';
         await ytdl(url, { quality: 'lowestaudio' })
