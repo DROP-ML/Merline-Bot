@@ -102,7 +102,7 @@ async function cmd(sock, M, m, result) {
             break;
         case result.startsWith('.song'): 
         sendM(sock,m,M,"Production Song Service has Stopped!")       //done
-            // await isNull(result, 6, sock, m, M).then(async ress => { await song(sock, m, M, ress, "android") }).catch(error => { console.log("error") })
+            // await isNull(result, 6 , sock, m, M).then(async ress => { await song(sock, m, M, ress, "android") }).catch(error => { console.log("error") })
             break;
         case result.startsWith('.apple'):  
         sendM(sock,m,M,"Production Song Service has Stopped!")     //done
