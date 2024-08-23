@@ -85,8 +85,8 @@ async function cmd(sock, M, m, result) {
             await gemini(sock, m, M, result.split(8))
             break;
         case result.startsWith('.video'):
-            sendM(sock,m,M,"Production Video has Service Stopped!")         //done
-            // await mp4(sock, m, M, result);
+            // sendM(sock,m,M,"Production Video has Service Stopped!")         //done
+            await mp4(sock, m, M, result);
             break;
         case result.startsWith('.gpt3'):         //done
             gpt(sock, m, M, result)
@@ -101,8 +101,8 @@ async function cmd(sock, M, m, result) {
             await ttinfo(sock, m, M, result);
             break;
         case result.startsWith('.song'): 
-        sendM(sock,m,M,"Production Song Service has Stopped!")       //done
-            // await isNull(result, 6 , sock, m, M).then(async ress => { await song(sock, m, M, ress, "android") }).catch(error => { console.log("error") })
+        // sendM(sock,m,M,"Production Song Service has Stopped!")       //done
+            await isNull(result, 6 , sock, m, M).then(async ress => { await song(sock, m, M, ress, "android") }).catch(error => { console.log("error") })
             break;
         case result.startsWith('.apple'):  
         sendM(sock,m,M,"Production Song Service has Stopped!")     //done
