@@ -38,24 +38,9 @@ async function song(sock, m, M, text, type) {
             const id = yt.id;
             const quality = '128kbps';
             const dl_url = await yt.audio[quality].download();
+
             const messageText = generateMessageText(title, id, thumbnail, quality, yt.audio[quality].fileSizeH);
-
-
-            const randomNumber = Math.floor(Math.random() * 10) + 1;
-            const filePath2 = `${randomNumber}.png`;
-
-            // Fetch the image
-            const response = await axios.get(thumbnail, { responseType: 'arraybuffer' });
-
-            // Write the buffer to a local file
-            await fs.writeFile(filePath2, Buffer.from(response.data, 'binary'));
-
-            await sendImage(sock, m, M, filePath2, messageText);
-            react(sock, m, M, lang.react.success);
-
-            // Delete the file from the server
-            await fs.unlink(filePath2);
-
+            await sendM(sock, m, M, messageText);
 
             const fileName = getSafeFileName(title);
             const filePath = path.join(fileName);
