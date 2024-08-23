@@ -47,10 +47,10 @@ async function song(sock, m, M, text, type) {
                 responseType: 'arraybuffer',
             })
             try {
-                fs.writeFileSync(title, Buffer.from(response.data, 'binary'));
-                await sendImage(sock, m, M, title, messageText)
+                fs.writeFileSync(title+'.png', Buffer.from(response.data, 'binary'));
+                await sendImage(sock, m, M, title+'.png', messageText)
                 react(sock, m, M, lang.react.success);
-                await fs.unlink(title);
+                await fs.unlink(title+'.png');
             } catch (error) {
                 react(sock, m, M, lang.react.error);
             };
