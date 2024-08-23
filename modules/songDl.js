@@ -46,11 +46,12 @@ async function song(sock, m, M, text, type) {
                 url: thumbnail,
                 responseType: 'arraybuffer',
             })
+            let iName = title.replace(/[\\/:*?"<>|]/g, '_') + '.png';
             try {
-                fs.writeFileSync(title+'.png', Buffer.from(response.data, 'binary'));
-                await sendImage(sock, m, M, title+'.png', messageText)
+                fs.writeFileSync(iName, Buffer.from(response.data, 'binary'));
+                await sendImage(sock, m, M, iName, messageText)
                 react(sock, m, M, lang.react.success);
-                await fs.unlink(title+'.png');
+                await fs.unlink(iName);
             } catch (error) {
                 react(sock, m, M, lang.react.error);
             };
