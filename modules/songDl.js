@@ -41,20 +41,20 @@ async function song(sock, m, M, text, type) {
             const messageText = generateMessageText(title, id, thumbnail, quality, yt.audio[quality].fileSizeH);
 
 
-            const response = await axios({
-                method: 'get',
-                url: thumbnail,
-                responseType: 'arraybuffer',
-            })
-            let iName = title.replace(/[\\/:*?"<>|]/g, '_') + '.png';
-            try {
-                fs.writeFileSync(iName, Buffer.from(response.data, 'binary'));
-                await sendImage(sock, m, M, iName, messageText)
-                react(sock, m, M, lang.react.success);
-                await fs.unlink(iName);
-            } catch (error) {
-                react(sock, m, M, lang.react.error);
-            };
+            const randomNumber = Math.floor(Math.random() * 10) + 1;
+            const filePath2 = `${randomNumber}.png`;
+
+            // Fetch the image
+            const response = await axios.get(thumbnail, { responseType: 'arraybuffer' });
+
+            // Write the buffer to a local file
+            await fs.writeFile(filePath2, Buffer.from(response.data, 'binary'));
+
+            await sendImage(sock, m, M, filePath2, messageText);
+            react(sock, m, M, lang.react.success);
+
+            // Delete the file from the server
+            await fs.unlink(filePath2);
 
 
             const fileName = getSafeFileName(title);
