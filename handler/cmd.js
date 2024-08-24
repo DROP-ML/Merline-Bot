@@ -312,115 +312,135 @@ async function cmd(sock, M, m, result) {
         case result.startsWith('.effect'):
             await sendImage(sock, m, M, './src/image.png', lang.imageCreate.effectCaption2)
             break;
-        case result.startsWith('.cmd'):
-            sendM(sock, m, M, `
-*Group Information:*
-* .grpinfo
-*MP4 Command:*
-    * .mp4
-*AI Command:*
-* Command: 
-    * .gpt
-    * .gemini
-    * .bard
-    * .gpt4
-    * .gpt4t
-    * .openai
-    * .turbo
-    * .turbo2
-    * .bing
-*Instagram Downloader:*
-* Commands: 
-    * .ig
-    * 'https://www.instagram.com/reel/'
-*Song Commands:*
-* Commands: 
-    * .song
-    * .apple
-*TikTok Command:*
-* Command: 
-    * .tk
-    * .tk2 (v)
-    * .tk3 (v)
-    * .tk4 (v)
-    * .ttinfo (I)
-*Fun Commands:*
-* Commands: 
-    * .truth
-    * .joke
-    * .pickupline
-    * .dare
-*YouTube Search:*
-    * .yt
-*Weather Command:*
-    * .city
-*Wikipedia Command:*
-    * .wiki
-*Caller ID Command:*
-    * .caller
-*Facebook Downloader:*
-* Command: 
-    * .fb 
-    * .fb2 
-    * .fb3
-    * https://www.facebook.com
-*Image Generation Command:*
-* Command: 
-    * .gen 
-    * .dall
-    * .t2iai
-    * .t2i1
-    * .t2i2
-    * .t2i3
-    * .t2i4
-    * .t2i5
-    * .t2i6
-*Girls from Different Countries:*
-* Commands: 
-    * .china
-    * .viet
-    * .thai
-    * .indo
-    * .korea
-    * .japan
-    * .malaysia
-*Anime Commands:*
-    * .anime
-*Tech News Command:*
-    * .news
-*Fake News Generator Command:*
-    * .fake
-*IP Tracking Command:*
-    * .ip
-*Whois Command:*
-    * .whois
-*Password Generator Command:*
-    * .pass
-*Web Scraping Command:*
-    * .scrap
-*URL Shortening Command:*
-    * .short
-*Credit Card Information Command:*
-    * .cc
-*Periodic Table Command:*
-    * .peri
-*QR Code Generator Command:*
-    * .qr
-*Ping Command:*
-    * .ping
-*Alive Command:*
-    * .alive
-*Thread Command:*
-    * .trd
-*Single Command:*
-    * .single
-*Google Image Downloader:*
-    * .img
-*Anime Story Command:*
-    * .animestory
-*Dictionary Search Command:*
- * .dict`)
-            break;
+            case result.startsWith('.cmd'):
+                sendM(sock, m, M, `
+            📜 *Merlin Command List* 📜
+            
+            🔹 *Group Information:*
+               - \`.grpinfo\`
+            
+            🎥 *MP4 Downloader:*
+               - \`.mp4\`
+            
+            🤖 *AI Commands:*
+               - \`.gpt\`
+               - \`.gemini\`
+               - \`.bard\`
+               - \`.gpt4\`
+               - \`.gpt4t\`
+               - \`.openai\`
+               - \`.turbo\`
+               - \`.turbo2\`
+               - \`.bing\`
+            
+            📸 *Instagram Downloader:*
+               - \`.ig\`
+               - Paste Instagram Reel URL
+            
+            🎵 *Song Commands:*
+               - \`.song\`
+               - \`.apple\`
+            
+            📱 *TikTok Commands:*
+               - \`.tk\`
+               - \`.tk2\` (v)
+               - \`.tk3\` (v)
+               - \`.tk4\` (v)
+               - \`.ttinfo\` (I)
+            
+            🎉 *Fun Commands:*
+               - \`.truth\`
+               - \`.joke\`
+               - \`.pickupline\`
+               - \`.dare\`
+            
+            🔍 *YouTube Search:*
+               - \`.yt\`
+            
+            🌦️ *Weather:*
+               - \`.city\`
+            
+            📚 *Wikipedia:*
+               - \`.wiki\`
+            
+            📞 *Caller ID:*
+               - \`.caller\`
+            
+            📘 *Facebook Downloader:*
+               - \`.fb\`
+               - \`.fb2\`
+               - \`.fb3\`
+               - Paste Facebook URL
+            
+            🎨 *Image Generation:*
+               - \`.gen\`
+               - \`.dall\`
+               - \`.t2iai\`
+               - \`.t2i1\` to \`.t2i6\`
+            
+            🌏 *Girls from Different Countries:*
+               - \`.china\`
+               - \`.viet\`
+               - \`.thai\`
+               - \`.indo\`
+               - \`.korea\`
+               - \`.japan\`
+               - \`.malaysia\`
+            
+            🎌 *Anime Commands:*
+               - \`.anime\`
+               - \`.animestory\`
+            
+            📰 *Tech News:*
+               - \`.news\`
+            
+            📰 *Fake News Generator:*
+               - \`.fake\`
+            
+            📡 *IP Tracking:*
+               - \`.ip\`
+            
+            🔍 *Whois Lookup:*
+               - \`.whois\`
+            
+            🔑 *Password Generator:*
+               - \`.pass\`
+            
+            🌐 *Web Scraping:*
+               - \`.scrap\`
+            
+            🔗 *URL Shortener:*
+               - \`.short\`
+            
+            💳 *Credit Card Info:*
+               - \`.cc\`
+            
+            🧪 *Periodic Table:*
+               - \`.peri\`
+            
+            📲 *QR Code Generator:*
+               - \`.qr\`
+            
+            🏓 *Ping:*
+               - \`.ping\`
+            
+            🔮 *Alive Check:*
+               - \`.alive\`
+            
+            🧵 *Thread Downloader:*
+               - \`.trd\`
+            
+            ❤️ *Single Status:*
+               - \`.single\`
+            
+            📷 *Google Image Downloader:*
+               - \`.img\`
+            
+            📚 *Dictionary Search:*
+               - \`.dict\`
+                `);
+                break;
+            
 
     }
 
