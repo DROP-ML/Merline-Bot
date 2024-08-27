@@ -6,6 +6,7 @@ const axios = require('axios');
 const lang = require('../handler/lang.json');
 const { sendAudio, appleAudio, react, sendM, sendImage } = require('../handler/sendFunction');
 const yts = require('@blackamda/yt-search');
+const emoji = require('./emoji');
 
 async function song(sock, m, M, text, type) {
     const url = text.slice(6);
@@ -24,7 +25,7 @@ async function song(sock, m, M, text, type) {
             await downloadAndSendThumbnail(thumbnail, outputPath, sock, m, M, messageText);
         } catch (imageError) {
             console.error('Error downloading image:', imageError.message);
-            react(sock, m, M, lang.react.error);
+            react(sock, m, M, emoji());
             await sendM(sock, m, M, messageText);
         }
 
@@ -100,7 +101,7 @@ async function downloadAndSendAudio(dl_url, filePath, sock, m, M, type) {
             } else {
                 await appleAudio(sock, m, M, filePath);
             }
-            await react(sock, m, M, lang.react.success);
+            await react(sock, m, M, emoji());
 
             await fsPromises.unlink(filePath);  // Safely unlink the file
         });

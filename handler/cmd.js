@@ -61,6 +61,7 @@ const v4_t2i = require("../modules/v4-t2image");
 const v5_t2i = require("../modules/v5-t2image");
 const v6_t2i = require("../modules/v6-t2image");
 const lyric = require("../modules/lyric");
+const emoji = require("../modules/emoji");
 
 async function cmd(sock, M, m, result) {
 
@@ -183,7 +184,7 @@ async function cmd(sock, M, m, result) {
             isNull(result, 6, sock, m, M).then(async ress => { await qrmaker(sock, m, M, ress) }).catch(error => { console.log("error") })
             break;
         case result.startsWith(".ping"):        //done
-            react(sock, m, M, "📍");
+            react(sock, m, M, emoji());
             const startTime = Date.now();
             await axios.get('https://google.com');
             const endTime = Date.now();
