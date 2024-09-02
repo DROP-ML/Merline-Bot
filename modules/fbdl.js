@@ -14,7 +14,8 @@ async function fbdl(sock, m, M, text) {
 
   var url2 = text
   let hasPipe = url2.includes("|");
-  var tex = "°° вєтα тєѕтιηg вσт °°";
+  // var tex = "°° вєтα тєѕтιηg вσт °°";
+  var tex ;
   if (hasPipe) {
     const gh = await cv(url2);
     url2 = gh.a;

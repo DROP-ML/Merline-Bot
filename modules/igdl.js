@@ -12,7 +12,8 @@ async function igdl(sock, m, M, text) {
 
   var url = text
   let hasPipe = url.includes("|");
-  var tex = "°° вєтα тєѕтιηg вσт °°";
+  // var tex = "°° вєтα тєѕтιηg вσт °°";
+  var tex ;
   if (hasPipe) {
     const gh = await cv(url);
     url = gh.a;
