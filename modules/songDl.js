@@ -36,6 +36,8 @@ async function song(sock, m, M, text, type) {
     } catch (error) {
         console.error('Error processing the request:', error.message);
         await sendM(sock, m, M, `❎ Error processing the request: ${error.message}`);
+    }finally {
+        await fsPromises.unlink(filePath); // Safely unlink the file
     }
 }
 
@@ -93,7 +95,7 @@ async function downloadAndSendAudio(dl_url, filePath, sock, m, M, type) {
         const fileStream = await fs.createWriteStream(filePath);
         await response.data.pipe(fileStream);
 
-        fileStream.on('finish', async () => {
+        await fileStream.on('finish', async () => {
             console.log(`✅ Download completed: ${filePath}`);
             await react(sock, m, M, lang.react.upload);
             if (type === "android") {
@@ -104,7 +106,7 @@ async function downloadAndSendAudio(dl_url, filePath, sock, m, M, type) {
             await react(sock, m, M, emoji());
         });
 
-        fileStream.on('error', async (error) => {
+        await fileStream.on('error', async (error) => {
             console.error('Error writing file:', error.message);
             await sendM(sock, m, M, `❎ Error downloading the audio: ${error.message}`);
         });
@@ -112,9 +114,7 @@ async function downloadAndSendAudio(dl_url, filePath, sock, m, M, type) {
     } catch (err) {
         console.error('Error during audio download:', err.message);
         await sendM(sock, m, M, `❎ Error downloading the audio: ${err.message}`);
-    } finally {
-        await fsPromises.unlink(filePath); // Safely unlink the file
-    }
+    } 
 }
 
 module.exports = song;
