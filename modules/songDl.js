@@ -102,19 +102,18 @@ async function downloadAndSendAudio(dl_url, filePath, sock, m, M, type) {
                 await appleAudio(sock, m, M, filePath);
             }
             await react(sock, m, M, emoji());
-
-            await fsPromises.unlink(filePath);  // Safely unlink the file
         });
 
         fileStream.on('error', async (error) => {
             console.error('Error writing file:', error.message);
-            await fsPromises.unlink(filePath); // Attempt to delete the file if the download fails
             await sendM(sock, m, M, `❎ Error downloading the audio: ${error.message}`);
         });
+
     } catch (err) {
         console.error('Error during audio download:', err.message);
-        await fsPromises.unlink(filePath); // Attempt to delete the file if the download fails
         await sendM(sock, m, M, `❎ Error downloading the audio: ${err.message}`);
+    } finally {
+        await fsPromises.unlink(filePath); // Safely unlink the file
     }
 }
 
