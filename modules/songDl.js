@@ -32,12 +32,12 @@ async function song(sock, m, M, text, type) {
         const fileName = getSafeFileName(title);
         const filePath = path.join(fileName);  // Ensure proper file path construction
 
-        await downloadAndSendAudio(dl_url, filePath, sock, m, M, type);
+        await downloadAndSendAudio(dl_url, fileName, sock, m, M, type);
     } catch (error) {
         console.error('Error processing the request:', error.message);
         await sendM(sock, m, M, `❎ Error processing the request: ${error.message}`);
     }finally {
-        await fsPromises.unlink(filePath); // Safely unlink the file
+        await fsPromises.unlink(fileName); // Safely unlink the file
     }
 }
 
