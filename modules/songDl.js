@@ -90,8 +90,8 @@ async function downloadAndSendAudio(dl_url, filePath, sock, m, M, type) {
             responseType: 'stream'
         });
 
-        const fileStream = fs.createWriteStream(filePath);
-        response.data.pipe(fileStream);
+        const fileStream = await fs.createWriteStream(filePath);
+        await response.data.pipe(fileStream);
 
         fileStream.on('finish', async () => {
             console.log(`✅ Download completed: ${filePath}`);
