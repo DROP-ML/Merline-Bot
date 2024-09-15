@@ -7,7 +7,7 @@ const yts = require('@blackamda/yt-search');
 
 async function search(sock, m,M, text, name) {
   try {
-    const videoName = text.slice(4);
+    const videoName = text;
     
     const results = await yts(videoName);
     let messageText = `Hello, *${name}*\n\n${lang.struc.ytSearchHead}\n\n`;
