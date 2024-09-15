@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 const lang = require('../handler/lang.json');
 const { sendVideomp4, react } = require('../handler/sendFunction');
-const emoji = require('./emoji');
 
 async function mp4(sock, m, M, text) {
     let url;
@@ -33,9 +32,9 @@ async function mp4(sock, m, M, text) {
 *${title}*  
 
 °° вєтα тєѕтιηg вσт °°`;
-                    await react(sock, m, M, emoji());
+                    await react(sock, m, M, lang.react.upload);
                     await sendVideomp4(sock, m, M, 'modules/'+fileName, caption);
-                    await react(sock, m, M, emoji());
+                    await react(sock, m, M, lang.react.success);
                     fs.unlinkSync('modules/'+fileName); // Clean up the file after sending
                 });
             }).on('error', (err) => {
@@ -47,7 +46,7 @@ async function mp4(sock, m, M, text) {
             return;
         }
     } else {
-        await sock.sendMessage(m, { text: "*Can't process this event*" }, { quoted: M });
+        await sock.sendMessage(m, { text: "Not for you BigHead .... !" }, { quoted: M });
         await react(sock, m, M, lang.react.error);
     }
 }
