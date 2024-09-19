@@ -37,7 +37,7 @@ const sendVideomp4 = async (sock, m, M, video, cap) => {
   await sock.sendMessage(
     m,
     {
-      video: fs.readFileSync('./'+video),
+      video: fs.readFileSync('./' + video),
       caption: cap,
       gifPlayback: false
     }, { quoted: M })
