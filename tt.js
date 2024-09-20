@@ -6,6 +6,7 @@ async function ytdl2(v, imageFileName) {
     try {
         const q = '128kbps';
         const yt = await youtubedl(v).catch(async () => await youtubedlv2(v));
+        console.log(yt)
         const dl_url = await yt.audio[q].download();
         const title = yt.title;
         const thumbnail = yt.thumbnail;
