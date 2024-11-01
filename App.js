@@ -64,7 +64,7 @@ async function connectionLogic() {
 
 }
 
-const sock = await connectionLogic();
+connectionLogic();
 
 // API route to send a message to a specific WhatsApp user
 app.post('/send-message', async (req, res) => {
