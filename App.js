@@ -5,63 +5,88 @@ const cmd = require("./handler/cmd");
 const app = express();
 const port = 3000;
 
+// Middleware to parse JSON request body
+app.use(express.json());
+
 async function connectionLogic() {
-  const { state, saveCreds } = await useMultiFileAuthState("auth_info_baileys");
+    const { state, saveCreds } = await useMultiFileAuthState("auth_info_baileys");
 
-  const sock = makeWASocket({
-    auth: state,
-    printQRInTerminal: true,
-  });
+    const sock = makeWASocket({
+        auth: state,
+        printQRInTerminal: true,
+    });
 
-  sock.ev.on("connection.update", async (update) => {
-    const { connection, lastDisconnect, qr } = update || {}; // Corrected the placement of 'qr' within the destructuring statement.
-    if (qr) {
-      console.log(qr);
-    }
-    if (connection === "close") {
-      const shouldReconnect =
-        lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
-      if (shouldReconnect) {
-        connectionLogic();
-      }
-    }
-  });
-
-  function verify(messages) {
-    let received; // Declare 'received' correctly at the top of the function
-    if (messages[0].hasOwnProperty('message')) {
-      if (messages[0].message.hasOwnProperty('conversation')) {
-        received = messages[0].message.conversation;
-        return received;
-      } else if (messages[0].message.hasOwnProperty('extendedTextMessage')) {
-        if (messages[0].message.extendedTextMessage.hasOwnProperty('text')) {
-          received = messages[0].message.extendedTextMessage.text;
-          return received;
-        } else {
-          return "error1";
+    sock.ev.on("connection.update", async (update) => {
+        const { connection, lastDisconnect, qr } = update || {};
+        if (qr) {
+            console.log(qr);
         }
-      } else {
-        return "error2";
-      }
-    } else {
-      return "error3";
-    }
-  }
+        if (connection === "close") {
+            const shouldReconnect =
+                lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
+            if (shouldReconnect) {
+                connectionLogic();
+            }
+        }
+    });
 
-  sock.ev.on("messages.upsert", async ({ messages }) => {
-    const message = messages[0];
-    const result = verify(messages);
-    const remoteJid = message.key.remoteJid;
-    if (result !== "error3") { // Fixed to match returned error string in 'verify' function
-      cmd(sock, message, remoteJid, result);
+    function verify(messages) {
+        let received;
+        if (messages[0].hasOwnProperty('message')) {
+            if (messages[0].message.hasOwnProperty('conversation')) {
+                received = messages[0].message.conversation;
+                return received;
+            } else if (messages[0].message.hasOwnProperty('extendedTextMessage')) {
+                if (messages[0].message.extendedTextMessage.hasOwnProperty('text')) {
+                    received = messages[0].message.extendedTextMessage.text;
+                    return received;
+                } else {
+                    return "error1";
+                }
+            } else {
+                return "error2";
+            }
+        } else {
+            return "error3";
+        }
     }
-  });
 
-  sock.ev.on("creds.update", saveCreds);
+    sock.ev.on("messages.upsert", async ({ messages }) => {
+        const message = messages[0];
+        const result = verify(messages);
+        const remoteJid = message.key.remoteJid;
+        if (result !== "error3") {
+            cmd(sock, message, remoteJid, result);
+        }
+    });
+
+    sock.ev.on("creds.update", saveCreds);
+
+    // Store the socket for later use in the API route
+    return sock;
 }
 
-connectionLogic();
+const sock = await connectionLogic();
+
+// API route to send a message to a specific WhatsApp user
+app.post('/send-message', async (req, res) => {
+    const { phoneNumber, text } = req.body;
+
+    if (!phoneNumber || !text) {
+        return res.status(400).json({ error: 'Phone number and text are required.' });
+    }
+
+    const jid = `${phoneNumber}@s.whatsapp.net`; // Convert to WhatsApp ID format
+
+    try {
+        await sock.sendMessage(jid, { text });
+        return res.status(200).json({ message: 'Message sent successfully!' });
+    } catch (error) {
+        console.error('Error sending message:', error);
+        return res.status(500).json({ error: 'Failed to send message.' });
+    }
+});
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+    console.log(`Server running on http://localhost:${port}`);
 });
