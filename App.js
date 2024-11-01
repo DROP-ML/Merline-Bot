@@ -62,8 +62,6 @@ async function connectionLogic() {
 
     sock.ev.on("creds.update", saveCreds);
 
-    // Store the socket for later use in the API route
-    return sock;
 }
 
 const sock = await connectionLogic();
