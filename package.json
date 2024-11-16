@@ -21,6 +21,7 @@
     "shaon-media-downloader": "^2.4.8",
     "sharp": "^0.32.6",
     "tiktokapi-src": "^1.2.0",
+    "youtube-dl-exec": "^3.0.10",
     "ytdl-core": "^4.11.5"
   }
 }
