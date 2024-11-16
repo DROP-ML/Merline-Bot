@@ -14,6 +14,7 @@ async function connectionLogic() {
     const sock = makeWASocket({
         auth: state,
         printQRInTerminal: true,
+        markOnlineOnConnect: false,
     });
 
     sock.ev.on("connection.update", async (update) => {
