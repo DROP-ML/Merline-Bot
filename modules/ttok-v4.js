@@ -29,13 +29,12 @@ async function ttok_v4(sock, m, M, text) {
     };
 
     const response = await axios.get(apiUrl, options);
-    const data = response.data;
+    const data = response.downloadUrl;
     console.log(data); // Log the full response JSON
 
-    if (data.code == 200 && data.result.video) {
       react(sock, m, M, lang.react.down);
 
-      const videoResponse = await axios.get(data.result.video, { responseType: 'arraybuffer' });
+      const videoResponse = await axios.get(data, { responseType: 'arraybuffer' });
       await fs.writeFile(videoFileName, Buffer.from(videoResponse.data));
       react(sock, m, M, lang.react.process);
 
@@ -43,11 +42,7 @@ async function ttok_v4(sock, m, M, text) {
 
       react(sock, m, M, lang.react.success);
       await fs.unlink(videoFileName);
-    } else {
-      react(sock, m, M, lang.react.error);
-      console.log("Video download failed: " + (data.message || "Unknown error"));
-      await sendM(sock, m, M, "*Tiktok Video Not Found ... Try again later*");
-    }
+
   } catch (error) {
     console.error('Error during TikTok video download:', error.message || error);
     react(sock, m, M, lang.react.error);
