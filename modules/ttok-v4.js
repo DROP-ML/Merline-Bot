@@ -7,10 +7,11 @@ const randomNumber = Math.floor(Math.random() * 10) + 1;
 const videoFileName = `${randomNumber}.mp4`;
 
 async function ttok_v4(sock, m, M, text) {
-  var url = text;
+  let url = text;
+  let tex = "°° вєтα тєѕтιηg вσт °°";
+  
+  // If the URL contains a pipe, process accordingly
   let hasPipe = url.includes("|");
-  var tex = "°° вєтα тєѕтιηg вσт °°";
-
   if (hasPipe) {
     const gh = await cv(url);
     url = gh.a;
@@ -18,8 +19,7 @@ async function ttok_v4(sock, m, M, text) {
   }
 
   try {
-    // Fetch the video download link using the new API
-    const apiUrl = `https://tiktok-video-downloader-api.p.rapidapi.com/media?videoUrl=${encodeURIComponent(url)}`;
+    // Set up options for the API request
     const options = {
       method: 'GET',
       headers: {
@@ -28,25 +28,36 @@ async function ttok_v4(sock, m, M, text) {
       }
     };
 
-    const response = await axios.get(apiUrl, options);
-    const data = response.downloadUrl;
-    console.log(data); // Log the full response JSON
+    // Make the API call to get the video download URL
+    const response = await axios.get(`https://tiktok-video-downloader-api.p.rapidapi.com/media?videoUrl=${url}`, options);
+    const data = response.data;
 
+    // Ensure downloadUrl exists in the API response
+    if (data.downloadUrl) {
       react(sock, m, M, lang.react.down);
 
-      const videoResponse = await axios.get(data, { responseType: 'arraybuffer' });
+      // Download the video using the provided URL
+      const videoResponse = await axios.get(data.downloadUrl, { responseType: 'arraybuffer' });
+
+      // Save the video file
       await fs.writeFile(videoFileName, Buffer.from(videoResponse.data));
       react(sock, m, M, lang.react.process);
 
-      sendVideomp4(sock, m, M, videoFileName, tex);
+      // Send the video to the user
+      await sendVideomp4(sock, m, M, videoFileName, tex);
 
       react(sock, m, M, lang.react.success);
+      // Clean up the file after sending
       await fs.unlink(videoFileName);
-
+    } else {
+      console.log('No download URL found in the response.');
+      react(sock, m, M, lang.react.error);
+      sendM(sock, m, M, "*Tiktok Video Not Found... Try .tk Command*");
+    }
   } catch (error) {
-    console.error('Error during TikTok video download:', error.message || error);
+    console.error('Error during Tiktok video download:', error.message || error);
     react(sock, m, M, lang.react.error);
-    sendM(sock, m, M, "*I Can't do it right now*");
+    sendM(sock, m, M, "*I Can’t do it right now*");
   }
 }
 
