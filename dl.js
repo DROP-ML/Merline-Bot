@@ -1,27 +1,22 @@
-const youtubedl = require('youtube-dl-exec');
-const fs = require('fs');
-const path = require('path');
-const randomNumber = Math.floor(Math.random() * 100000) + 1;
-const outputFileName = `${randomNumber}.mp3`;
+const fetch = require('node-fetch');
 
-// Main function to download YouTube audio
-async function downloadYouTubeAudio() {
+const url = 'https://tiktok-video-downloader-api.p.rapidapi.com/media?videoUrl=https%3A%2F%2Fwww.tiktok.com%2F%40khaby.lame%2Fvideo%2F7254764316308655387';
+const options = {
+  method: 'GET',
+  headers: {
+    'x-rapidapi-key': '92099ecd2cmsh20ff35cd2120ab7p18335bjsn60b078305587',
+    'x-rapidapi-host': 'tiktok-video-downloader-api.p.rapidapi.com'
+  }
+};
+
+async function fetchAndLogResponse() {
   try {
-    const videoUrl = "https://youtu.be/oAVhUAaVCVQ?si=qrYiGIVJvXfAmJ1S"; // Example YouTube video URL
-
-    // Use yt-dlp to download the audio directly
-    const outputPath = path.join(outputFileName);
-    await youtubedl(videoUrl, {
-      extractAudio: true,
-      audioFormat: 'mp3',
-      output: outputPath, // Save as an MP3 file
-    });
-
-    console.log(`✅ Download completed: Saved as ${outputFileName}`);
+    const response = await fetch(url, options);
+    const result = await response.json(); // Parse the response as JSON
+    console.log(result.downloadUrl); // Log the JSON result
   } catch (error) {
-    console.error(`❎ Error: ${error.message}`);
+    console.error('Error fetching data:', error); // Log any errors
   }
 }
 
-// Run the main function
-downloadYouTubeAudio();
+fetchAndLogResponse();
