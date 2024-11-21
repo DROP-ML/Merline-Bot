@@ -3,6 +3,8 @@
   "description": "A WhatsApp bot built with Node.js",
   "main": "App.js",
   "scripts": {
+    "build": "grunt build",
+    "scalingo-postbuild": "grunt build --prod",
     "start": "node App.js"
   },
   "dependencies": {
