@@ -1,4 +1,10 @@
-{
+{"name": "whatsapp-bot",
+  "version": "1.0.0",
+  "description": "A WhatsApp bot built with Node.js",
+  "main": "App.js",
+  "scripts": {
+    "start": "node App.js"
+  },
   "dependencies": {
     "@blackamda/yt-search": "^2.10.4",
     "@bochilteam/scraper": "^4.2.4",
