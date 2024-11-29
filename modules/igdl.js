@@ -49,7 +49,7 @@
 
 const axios = require('axios');
 const { cv } = require('./catch');
-const { react, sendVideomp4,sendM } = require('../handler/sendFunction');
+const { react, sendVideomp4, sendM } = require('../handler/sendFunction');
 const fs = require('fs').promises; // Use fs.promises for async file operations
 const randomNumber = Math.floor(Math.random() * 100000) + 1;
 const videoFileName = `ig_video_${randomNumber}.mp4`;
@@ -82,26 +82,26 @@ async function igdl(sock, m, M, text) {
   };
 
   try {
-    const response = await axios.request(url5,options);
-
-    const mediaArray = response.data[0].medias[0];
-
-    for (const mediaData of mediaArray) {
-      const mediaURL = mediaData.url;
-
-
-        // Fetch and save the video
-        const videoResponse = await axios.get(response.data.medias[0].url, { responseType: 'arraybuffer' });
-        await fs.writeFile(videoFileName, Buffer.from(videoResponse.data));
-
-        // Send the video to the chat
-        react(sock, m, M, emoji());
-        await sendVideomp4(sock, m, M, videoFileName, cap);
-
-        // Clean up the temporary video file
-        await fs.unlink(videoFileName);
-      
+    const response = await fetch(url5, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
+    const result = await response.json(); // Parse response as JSON
+    
+
+
+    // Fetch and save the video
+    const videoResponse = await axios.get(result.medias[0].url, { responseType: 'arraybuffer' });
+    await fs.writeFile(videoFileName, Buffer.from(videoResponse.data));
+
+    // Send the video to the chat
+    react(sock, m, M, emoji());
+    await sendVideomp4(sock, m, M, videoFileName, cap);
+
+    // Clean up the temporary video file
+    await fs.unlink(videoFileName);
+
+
   } catch (error) {
     console.error('Error during Instagram media download:', error.message || error);
     react(sock, m, M, emoji());

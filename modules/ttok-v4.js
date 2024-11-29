@@ -34,15 +34,16 @@ async function ttok_v4(sock, m, M, text) {
   };
 
     // Make the API call to get the video download URL
-    const response = await axios.get(url5, options);
-    const data = response.data;
-
-    // Ensure downloadUrl exists in the API response
-    if (data.medias[0]) {
+    const response = await fetch(url5, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const result = await response.json(); // Parse response as JSON
+    
       react(sock, m, M, lang.react.down);
 
       // Download the video using the provided URL
-      const videoResponse = await axios.get(data.medias[0].url, { responseType: 'arraybuffer' });
+      const videoResponse = await axios.get(result.medias[0].url, { responseType: 'arraybuffer' });
 
       // Save the video file
       await fs.writeFile(videoFileName, Buffer.from(videoResponse.data));
@@ -54,11 +55,6 @@ async function ttok_v4(sock, m, M, text) {
       react(sock, m, M, lang.react.success);
       // Clean up the file after sending
       await fs.unlink(videoFileName);
-    } else {
-      console.log('No download URL found in the response.');
-      react(sock, m, M, lang.react.error);
-      sendM(sock, m, M, "*Tiktok Video Not Found... Try .tk Command*");
-    }
   } catch (error) {
     console.error('Error during Tiktok video download:', error.message || error);
     react(sock, m, M, lang.react.error);
