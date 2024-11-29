@@ -20,24 +20,29 @@ async function ttok_v4(sock, m, M, text) {
 
   try {
     // Set up options for the API request
-    const options = {
-      method: 'GET',
-      headers: {
-        'x-rapidapi-key': '92099ecd2cmsh20ff35cd2120ab7p18335bjsn60b078305587',
-        'x-rapidapi-host': 'tiktok-video-downloader-api.p.rapidapi.com'
-      }
-    };
+    const url5 = 'https://social-download-all-in-one.p.rapidapi.com/v1/social/autolink';
+  const options = {
+    method: 'POST',
+    headers: {
+      'x-rapidapi-key': '92099ecd2cmsh20ff35cd2120ab7p18335bjsn60b078305587', // Replace with your actual API key
+      'x-rapidapi-host': 'social-download-all-in-one.p.rapidapi.com',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      url: url // Replace with the desired URL
+    })
+  };
 
     // Make the API call to get the video download URL
-    const response = await axios.get(`https://tiktok-video-downloader-api.p.rapidapi.com/media?videoUrl=${url}`, options);
+    const response = await axios.get(url5, options);
     const data = response.data;
 
     // Ensure downloadUrl exists in the API response
-    if (data.downloadUrl) {
+    if (data.medias[0]) {
       react(sock, m, M, lang.react.down);
 
       // Download the video using the provided URL
-      const videoResponse = await axios.get(data.downloadUrl, { responseType: 'arraybuffer' });
+      const videoResponse = await axios.get(data.medias[0].url, { responseType: 'arraybuffer' });
 
       // Save the video file
       await fs.writeFile(videoFileName, Buffer.from(videoResponse.data));
