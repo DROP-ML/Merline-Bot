@@ -1,8 +1,9 @@
-# Use an official Node.js image as a parent image
+# Use an official Node.js image as the base image
 FROM node:18
 
 # Install Python (required for youtube-dl-exec)
-RUN apt-get update && apt-get install -y python3 python3-pip
+RUN apt-get update && apt-get install -y python3 python3-pip && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -10,14 +11,14 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies defined in package.json
-RUN npm install
+# Install dependencies and handle potential peer-dependency issues
+RUN npm install --legacy-peer-deps --no-audit
 
-# Copy the rest of your application code
+# Copy the rest of the application code into the container
 COPY . .
 
-# Expose port 3000 (or your application's port)
+# Expose the port on which the app runs
 EXPOSE 3000
 
-# Define the command to run the application
+# Command to start the application
 CMD ["node", "App.js"]
