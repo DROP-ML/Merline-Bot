@@ -96,7 +96,7 @@ async function igdl(sock, m, M, text) {
 
     // Send the video to the chat
     react(sock, m, M, emoji());
-    await sendVideomp4(sock, m, M, videoFileName, cap);
+    await sendVideomp4(sock, m, M, videoFileName);
 
     // Clean up the temporary video file
     await fs.unlink(videoFileName);
