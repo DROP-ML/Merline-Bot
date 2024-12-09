@@ -69,7 +69,7 @@ async function igdl2(sock, m, M, text) {
     tex = gh.b;
   }
 
-  const url5 = 'https://social-all-in-one.p.rapidapi.com/info?url='+url+'&format=json';
+  const url5 = 'https://social-all-in-one.p.rapidapi.com/info?format=json&url'+encodeURIComponent(url);
   const options = {
     method: 'GET',
     headers: {
