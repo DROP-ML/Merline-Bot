@@ -89,7 +89,7 @@ async function igdl2(sock, m, M, text) {
 
 
     // Fetch and save the video
-    const videoResponse = await axios.get(result.medias[0].url, { responseType: 'arraybuffer' });
+    const videoResponse = await axios.get(result.formats[0].url, { responseType: 'arraybuffer' });
     await fs.writeFile(videoFileName, Buffer.from(videoResponse.data));
 
     // Send the video to the chat
