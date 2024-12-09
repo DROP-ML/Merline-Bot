@@ -62,6 +62,7 @@ const v5_t2i = require("../modules/v5-t2image");
 const v6_t2i = require("../modules/v6-t2image");
 const lyric = require("../modules/lyric");
 const emoji = require("../modules/emoji");
+const igdl2 = require("../modules/igdl2");
 
 async function cmd(sock, M, m, result) {
 
@@ -93,7 +94,7 @@ async function cmd(sock, M, m, result) {
             gpt(sock, m, M, result)
             break;
         case result.startsWith('.ig'):          //done
-            igdl(sock, m, M, result.slice(4));
+            igdl2(sock, m, M, result.slice(4));
             break;
         case result.startsWith("https://www.instagram.com/reel/"):  //done
             igdl(sock, m, M, result);
