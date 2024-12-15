@@ -114,7 +114,7 @@ async function cmd(sock, M, m, result) {
             await isNull(result, 7, sock, m, M).then(async ress => { await song(sock, m, M, ress, "apple"); }).catch(error => { console.log("error") })
             break;
         case result.startsWith('.tk'):          //done
-            await isNull(result, 4, sock, m, M).then(async ress => { await ttok_v3(sock, m, M, ress.slice(4),result); }).catch(error => { console.log("error") })
+            await isNull(result, 4, sock, m, M).then(async ress => { await ttok(sock, m, M, ress.slice(4),result); }).catch(error => { console.log("error") })
             break;
         case result.startsWith('.truth'):       //done
         case result.startsWith('.joke'):        //done

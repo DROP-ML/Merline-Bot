@@ -55,7 +55,7 @@ const randomNumber = Math.floor(Math.random() * 100000) + 1;
 const videoFileName = `ig_video_${randomNumber}.mp4`;
 const { igdl } = require('ruhend-scraper')
 const emoji = require('./emoji');
-const igdl5 = require('./igdl');
+// const igdl5 = require('./igdl');
 
 async function igdl2(sock, m, M, text) {
   react(sock, m, M, emoji());
@@ -76,14 +76,23 @@ async function igdl2(sock, m, M, text) {
 
   try {
 
-    const dlurl = '';
+
 
     let res = await igdl(url);
     let data = await res.data;
     // console.log(res);
     for (let media of data) {
       new Promise(resolve => setTimeout(resolve, 2000));
-      dlurl = media.url;
+
+      const videoResponse = await axios.get(media.url, { responseType: 'arraybuffer' });
+      await fs.writeFile(videoFileName, Buffer.from(videoResponse.data));
+
+      // Send the video to the chat
+      react(sock, m, M, emoji());
+      await sendVideomp4(sock, m, M, videoFileName, tex);
+
+      // Clean up the temporary video file
+      await fs.unlink(videoFileName);
       /* media.url is or are link of videos or images that just one by one
        * or do something with your project
        */
@@ -92,19 +101,11 @@ async function igdl2(sock, m, M, text) {
 
 
     // Fetch and save the video
-    const videoResponse = await axios.get(dlurl, { responseType: 'arraybuffer' });
-    await fs.writeFile(videoFileName, Buffer.from(videoResponse.data));
 
-    // Send the video to the chat
-    react(sock, m, M, emoji());
-    await sendVideomp4(sock, m, M, videoFileName, tex);
-
-    // Clean up the temporary video file
-    await fs.unlink(videoFileName);
 
 
   } catch (error) {
-    await igdl5(sock, m, M, text);
+    // await igdl5(sock, m, M, text);
   }
 }
 
