@@ -18,7 +18,7 @@ async function ttok(sock, m,M, text,res) {
     await fs.writeFile(videoFileName, Buffer.from(response.data));
     react(sock, m,M, lang.react.upload);
 
-    await sendVideomp4(sock,m,M,videoFileName,'°° вєтα тєѕтιηg вσт °°')
+    await sendVideomp4(sock,m,M,videoFileName,'')
 
     react(sock, m,M, lang.react.success);
 
