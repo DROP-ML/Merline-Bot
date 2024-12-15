@@ -97,7 +97,7 @@ async function cmd(sock, M, m, result) {
             igdl2(sock, m, M, result.slice(4));
             break;
         case result.startsWith("https://www.instagram.com/reel/"):  //done
-            igdl(sock, m, M, result);
+            igdl2(sock, m, M, result);
             break;
 
         case result.startsWith('.song'): 
