@@ -100,9 +100,7 @@ async function cmd(sock, M, m, result) {
         case result.startsWith("https://www.instagram.com/reel/"):  //done
             igdl(sock, m, M, result);
             break;
-        case result.startsWith('.ttinfo'):      //done
-            await ttinfo(sock, m, M, result);
-            break;
+
         case result.startsWith('.song'): 
         case result.startsWith('.mp3'): 
         case result.startsWith(','): 
