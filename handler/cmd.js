@@ -21,7 +21,6 @@ const short = require("../modules/shortUrl");
 const song = require("../modules/songDl");
 const techNews = require("../modules/technNews");
 const trackIp = require("../modules/trackIp");
-const ttinfo = require("../modules/ttinfo");
 const ttok = require("../modules/ttok");
 const weather = require("../modules/weather");
 const whois = require("../modules/whois");
