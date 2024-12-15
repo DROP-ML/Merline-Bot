@@ -1,46 +1,19 @@
-const fs = require('fs');
-const path = require('path');
-const { youtubedl, youtubedlv2 } = require('@bochilteam/scraper');
-const axios = require('axios');
-const { Console } = require('console');
+const { exec } = require('child_process');
 
-async function downloadAudio(url, outputFileName) {
-    try {
-        let q = '128kbps';
-        let v = "https://youtu.be/oAVhUAaVCVQ?si=qrYiGIVJvXfAmJ1S";
-        const yt = await youtubedl(v).catch(async () => await youtubedlv2(v));
-        const dl_url = await yt.audio[q].download();
-        console.log(dl_url)
+const videoPath = 'input-video.mp4';
+const audioPath = 'input-audio.mp3';
+const outputPath = 'output-video.mp4';
 
-        const response = await axios({
-            method: 'GET',
-            url: dl_url,
-            responseType: 'stream' // Important for streaming the download to file
-        });
-        console.log(response)
+const command = `ffmpeg -i ${videoPath} -i ${audioPath} -c:v copy -c:a aac ${outputPath}`;
 
-        // Create a write stream to save the file
-        const fileStream = await fs.createWriteStream(outputFileName);
-
-        // Pipe the response data into the file stream
-        await response.data.pipe(fileStream);
-
-        // Resolve promise when file has finished writing
-        await fileStream.on('finish', () => {
-            fileStream.close();
-            console.log(`✅ Download completed: ${filePath}`);
-        });
-
-        // Handle error while writing to the file
-        await fileStream.on('error', (err) => {
-            console.error('❎ Error writing to file:', err.message);
-        });
-
-    } catch (error) {
-        console.error(`❎ Error downloading the file: ${error.message}`);
-    }
-}
-
-// Example usage
-const url = 'https://dl155.filemate19.shop/?file=M3R4SUNiN3JsOHJ6WWQ2a3NQS1Y5ZGlxVlZIOCtyZ0lnY2N6eEJFdlNvaEVwNEFpMXUvckFNRk9JcXNBaHNHUUVKVjcrenVUT3VPRE1RZTdvNU11Q1ZpSjl0aDI4aFRPNFlzbFY4ZzZmUmZvbE9teDJEeG0ya0h6ZDlUSUtxaFhlWDhtNWhKRnlpbUcyT1RXdkZDcWxYQzk5QWpSU254UDRCMEVITVBZeEw1SjQwcjlYcm5wdzhORHFpT1F2N1ppblBXRnBBamt4cVkzdGRrb0R4TW1KY2NKaTg2c2hyYmVvRUVtZzVFWjJVYjUrS1MxRDRRd1FmYkhMbUlsYm5SUCt2bXlXQmxH';
-downloadAudio(url, 'audio.mp3');
+exec(command, (error, stdout, stderr) => {
+  if (error) {
+    console.error('Error:', error.message);
+    return;
+  }
+  if (stderr) {
+    console.error('FFmpeg stderr:', stderr);
+    return;
+  }
+  console.log('Video and audio mixed successfully!');
+});

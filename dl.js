@@ -1,34 +1,71 @@
-const fetch = require('node-fetch');
-const fs = require('fs'); // For file system operations
+const axios = require('axios');
+const fs = require('fs').promises; // For file system operations
 const path = require('path'); // For path operations
+const ffmpeg = require('fluent-ffmpeg');
 
-const url = 'https://tiktok-video-downloader-api.p.rapidapi.com/media?videoUrl=https%3A%2F%2Fwww.tiktok.com%2F%40khaby.lame%2Fvideo%2F7254764316308655387';
+const url5 = 'https://social-all-in-one.p.rapidapi.com/info?format=json&url=https://www.instagram.com/reel/DBnkgUNIz0L/';
 const options = {
   method: 'GET',
   headers: {
     'x-rapidapi-key': '92099ecd2cmsh20ff35cd2120ab7p18335bjsn60b078305587',
-    'x-rapidapi-host': 'tiktok-video-downloader-api.p.rapidapi.com'
-  }
+    'x-rapidapi-host': 'social-all-in-one.p.rapidapi.com',
+    'Content-Type': 'application/json'
+  },
 };
+
+
+// Function to get the highest resolution video URL
+function getHighestResolutionVideoUrl(videoData) {
+  if (!videoData.ext == 'mp4') {
+    console.error("No video formats available.");
+    return null;
+  }
+
+
+  return videoData.url;
+}
+
+
 
 // Fetch the video URL and download it
 async function fetchAndDownloadVideo() {
   try {
-    const response = await fetch(url, options);
+    const response = await fetch(url5, options);
     const result = await response.json(); // Parse the response as JSON
-    const downloadUrl = result.downloadUrl;
+    // console.log(result);
+    const downloadUrl = result.formats[result.formats.length - 1].url;
+    // console.log(downloadUrl);
 
     if (downloadUrl) {
       // Get the video file name from the URL or assign a default name
-      const videoFileName = path.basename(downloadUrl);
-      const videoFilePath = path.join(__dirname, videoFileName); // Save in the current directory
+      // const videoFileName = path.basename(downloadUrl);/
+      const videoResponse = await axios.get(downloadUrl, { responseType: 'arraybuffer' });
+      await fs.writeFile('videoFileName.mp4', Buffer.from(videoResponse.data));
 
-      // Fetch the video content and save it to the file
-      const videoResponse = await fetch(downloadUrl);
-      const videoBuffer = await videoResponse.buffer(); // Convert to buffer
+      const videoResponse2 = await axios.get(result.formats[0].url, { responseType: 'stream' });
+      await fs.writeFile('videoFileName.mp3', Buffer.from(videoResponse2.data));
 
-      // Write the video to file system
-      fs.writeFileSync(videoFilePath, videoBuffer);
+      const videoPath = 'videoFileName.mp4';
+      const audioPath = 'videoFileName.mp3';
+      const outputPath = 'output-video.mp4';
+      
+      await ffmpeg()
+        .input(videoPath)  // Video file
+        .input(audioPath)  // Audio file
+        .outputOptions('-c:v copy') // Copy video codec without re-encoding
+        .outputOptions('-c:a aac')  // Encode audio to AAC (or compatible codec)
+        .save(outputPath)  // Output file
+        .on('end', () => {
+          console.log('Video and audio mixed successfully!');
+        })
+        .on('error', (err) => {
+          console.error('Error during mixing:', err);
+        });
+       // Save in the current directory
+
+
+      
+
       console.log(`Video saved as: ${videoFilePath}`);
     } else {
       console.log('No download URL found in the response');

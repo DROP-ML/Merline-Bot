@@ -1,6 +1,7 @@
 const axios = require('axios');
 const lang = require('../handler/lang.json');
 const {cv} = require('./catch');
+const { ttdl } = require('ruhend-scraper')
 const { react, sendM, sendVideomp4 } = require('../handler/sendFunction');
 const ttok_v4 = require('./ttok-v4');
 const fs = require('fs').promises; // Use fs.promises for async file operations
@@ -19,13 +20,13 @@ async function ttok_v3(sock, m, M, text) {
   }
   try {
 
-    const response = await axios.get(`https://aemt.me/download/tikdl?url=${url}`);
-    const data = response.data;
+    let data = await ttdl(url)
+
 
     if (data.code == 200) {
       react(sock, m,M, lang.react.down);
 
-      const videoResponse = await axios.get(data.result.url.wm, { responseType: 'arraybuffer' });
+      const videoResponse = await axios.get(data.video_hd, { responseType: 'arraybuffer' });
 
       await fs.writeFile(videoFileName, Buffer.from(videoResponse.data));
       react(sock, m,M, lang.react.process);

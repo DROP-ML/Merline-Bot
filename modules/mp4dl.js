@@ -1,5 +1,6 @@
 const { youtubedl, youtubedlv2 } = require('@bochilteam/scraper');
 const fs = require('fs');
+const { ytmp4 } = require('ruhend-scraper')
 const path = require('path');
 const lang = require('../handler/lang.json');
 const { sendVideomp4, react } = require('../handler/sendFunction');
@@ -12,10 +13,9 @@ async function mp4(sock, m, M, text) {
     if (url.match(/youtu/gi)) {
         try {
             // Fetch video information using @bochilteam/scraper
-            const yt = await youtubedl(url).catch(async () => await youtubedlv2(url));
-            const videoQuality = '720p'; // Desired quality
-            const dl_url = await yt.video[videoQuality].download(); // Download URL for selected video quality
-            const title = await yt.title; // Video title
+            const data = await ytmp4(url)
+            const dl_url = await data.video; // Download URL for selected video quality
+            const title = await data.title; // Video title
             const fileName = title.replace(/[\\/:*?"<>|]/g, '_') + '.mp4'; // File name with sanitized title
             const filePath = path.join(__dirname, fileName);
 
