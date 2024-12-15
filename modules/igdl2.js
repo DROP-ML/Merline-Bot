@@ -55,7 +55,7 @@ const randomNumber = Math.floor(Math.random() * 100000) + 1;
 const videoFileName = `ig_video_${randomNumber}.mp4`;
 const { igdl } = require('ruhend-scraper')
 const emoji = require('./emoji');
-const igdl2 = require('./igdl');
+const igdl5 = require('./igdl');
 
 async function igdl2(sock, m, M, text) {
   react(sock, m, M, emoji());
@@ -104,7 +104,7 @@ async function igdl2(sock, m, M, text) {
 
 
   } catch (error) {
-    await igdl2(sock, m, M, text);
+    await igdl5(sock, m, M, text);
   }
 }
 
