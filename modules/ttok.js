@@ -1,7 +1,7 @@
 const axios = require('axios');
 const lang = require('../handler/lang.json');
 const { ttdl } = require('ruhend-scraper')
-const fg = require('api-dylux');
+
 const fs = require('fs').promises; // Use fs.promises for async file operations
 const { react, sendVideomp4 } = require('../handler/sendFunction');
 const ttok_v2 = require('./ttok-v2');
