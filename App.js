@@ -42,10 +42,10 @@ async function connectionLogic() {
                     received = messages[0].message.extendedTextMessage.text;
                     return received;
                 } else {
-                    return "error1";
+                    return "error3";
                 }
             } else {
-                return "error2";
+                return "error3";
             }
         } else {
             return "error3";
