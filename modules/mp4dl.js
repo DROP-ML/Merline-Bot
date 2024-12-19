@@ -16,7 +16,7 @@ async function mp4(sock, m, M, text) {
             const options = {
                 method: 'POST',
                 headers: {
-                    'x-rapidapi-key': '92099ecd2cmsh20ff35cd2120ab7p18335bjsn60b078305587', // Replace with your actual API key
+                    'x-rapidapi-key': '8a00abd87amshf4e13809a48479fp1731b7jsn3b66a8856bf6', // Replace with your actual API key
                     'x-rapidapi-host': 'social-download-all-in-one.p.rapidapi.com',
                     'Content-Type': 'application/json'
                 },
