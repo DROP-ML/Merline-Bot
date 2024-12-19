@@ -89,7 +89,7 @@ async function cmd(sock, M, m, result) {
             
         case result.startsWith('.video'):
             // sendM(sock,m,M,"Production Video has Service Stopped!")         //done
-            await ytv(sock, m, M, result);
+            await mp4(sock, m, M, result);
             break;
         case result.startsWith('.gpt3'):         //done
             gpt(sock, m, M, result)
