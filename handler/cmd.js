@@ -62,6 +62,7 @@ const v6_t2i = require("../modules/v6-t2image");
 const lyric = require("../modules/lyric");
 const emoji = require("../modules/emoji");
 const igdl2 = require("../modules/igdl2");
+const ytv = require("../modules/mp4dl2");
 
 async function cmd(sock, M, m, result) {
 
@@ -88,7 +89,7 @@ async function cmd(sock, M, m, result) {
             
         case result.startsWith('.video'):
             // sendM(sock,m,M,"Production Video has Service Stopped!")         //done
-            await mp4(sock, m, M, result);
+            await ytv(sock, m, M, result);
             break;
         case result.startsWith('.gpt3'):         //done
             gpt(sock, m, M, result)

@@ -12,25 +12,10 @@ async function mp4(sock, m, M, text) {
 
     if (url.match(/youtu/gi)) {
         try {
-            const url5 = 'https://social-download-all-in-one.p.rapidapi.com/v1/social/autolink';
-            const options = {
-                method: 'POST',
-                headers: {
-                    'x-rapidapi-key': '8a00abd87amshf4e13809a48479fp1731b7jsn3b66a8856bf6', // Replace with your actual API key
-                    'x-rapidapi-host': 'social-download-all-in-one.p.rapidapi.com',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    url: url // Replace with the desired URL
-                })
-            };
             // Fetch video information using @bochilteam/scraper
-            const response = await fetch(url5, options);
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const result = await response.json(); // Download URL for selected video quality
-            const title = await response.title; // Video title
+            const data = await ytmp4(url)
+            const dl_url = await data.video; // Download URL for selected video quality
+            const title = await data.title; // Video title
             const fileName = title.replace(/[\\/:*?"<>|]/g, '_') + '.mp4'; // File name with sanitized title
             const filePath = path.join(__dirname, fileName);
 
@@ -38,7 +23,7 @@ async function mp4(sock, m, M, text) {
             const fileStream = fs.createWriteStream(filePath);
 
             // Download the video
-            require('https').get(result.medias[1].url, (response) => {
+            require('https').get(dl_url, (response) => {
                 response.pipe(fileStream);
                 fileStream.on('finish', async () => {
                     await fileStream.close();
@@ -48,12 +33,12 @@ async function mp4(sock, m, M, text) {
 
 °° вєтα тєѕтιηg вσт °°`;
                     await react(sock, m, M, lang.react.upload);
-                    await sendVideomp4(sock, m, M, 'modules/' + fileName, caption);
+                    await sendVideomp4(sock, m, M, 'modules/'+fileName, caption);
                     await react(sock, m, M, lang.react.success);
-                    fs.unlinkSync('modules/' + fileName); // Clean up the file after sending
+                    fs.unlinkSync('modules/'+fileName); // Clean up the file after sending
                 });
             }).on('error', (err) => {
-                fs.unlink('modules/' + fileName, () => { });
+                fs.unlink('modules/'+fileName, () => {});
                 sendM(sock, m, M, `❎ Error downloading the video: ${err.message}`);
             });
         } catch (error) {
