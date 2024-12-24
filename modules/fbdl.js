@@ -57,6 +57,7 @@ const { cv } = require('./catch');
 const { react, sendVideomp4 } = require('../handler/sendFunction');
 const fbdl_v2 = require('./fbdl-v2');
 const emoji = require('./emoji');
+const fbdl_v3 = require('./fbdl-v3');
 const fs = require('fs').promises; // Use fs.promises for async file operations
 const randomNumber = Math.floor(Math.random() * 100000) + 1;
 const videoFileName = `fb_video_${randomNumber}.mp4`;
@@ -109,7 +110,7 @@ async function fbdl(sock, m, M, text) {
     await fs.unlink(videoFileName);
   } catch (error) {
     console.error('Error during video download or file operation:', error.message || error);
-    fbdl_v2(sock, m, M, text); // Call backup handler in case of failure
+    fbdl_v3(sock, m, M, text); // Call backup handler in case of failure
   }
 }
 
