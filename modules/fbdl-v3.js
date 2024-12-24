@@ -6,6 +6,7 @@ const fs = require('fs').promises; // Use fs.promises for async file operations
 const randomNumber = Math.floor(Math.random() * 10) + 1;
 const videoFileName = `${randomNumber}.mp4`;
 const { fbdl } = require('ruhend-scraper');
+const emoji = require('./emoji');
 
 async function fbdl_v3(sock, m, M, text) {
 
