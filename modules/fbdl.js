@@ -110,7 +110,7 @@ async function fbdl(sock, m, M, text) {
     await fs.unlink(videoFileName);
   } catch (error) {
     console.error('Error during video download or file operation:', error.message || error);
-    fbdl_v3(sock, m, M, text); // Call backup handler in case of failure
+    fbdl(sock, m, M, text); // Call backup handler in case of failure
   }
 }
 

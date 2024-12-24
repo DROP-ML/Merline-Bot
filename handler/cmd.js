@@ -136,7 +136,7 @@ async function cmd(sock, M, m, result) {
             break;
         case result.startsWith(".fb"):          //done
             react(sock, m, M, "🐋");
-            await isNull(result, 4, sock, m, M,).then(async ress => { await fbdl(sock, m, M, ress.slice(4)); }).catch(error => { console.log("error") })
+            await isNull(result, 4, sock, m, M,).then(async ress => { await fbdl_v3(sock, m, M, ress.slice(4)); }).catch(error => { console.log("error") })
             break;
         case result.startsWith(".effect"):      //done
             react(sock, m, M, "🐋");
@@ -197,7 +197,7 @@ async function cmd(sock, M, m, result) {
             await alive(sock, m, M)
             break;
         case result.startsWith("https://www.facebook.com"):
-            fbdl(sock, m, M, result);
+            fbdl_v3(sock, m, M, result);
             break;
         case result.startsWith(".lyrics"):
             lyric(sock, m, M, result);
